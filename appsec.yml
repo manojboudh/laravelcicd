@@ -1,0 +1,27 @@
+version: 0.0
+os: ubuntu
+files:
+  - source: /
+    destination: /var/www/html/laravelcicd
+permissions:
+  - object: /var/www/html/laravelcicd/bootstrap
+    pattern: "**"
+    owner: www-data
+    group: www-data
+  - object: /var/www/html/laravelcicd/storage
+    pattern: "**"
+    owner: www-data
+    group: www-data
+hooks:
+  - location: /var/www/html/laravelcicd
+    timeout: 300
+    runas: www-data
+    before_install:
+      - - /usr/bin/composer install
+    application_start:
+      - - /usr/bin/php
+      - - /var/www/html/laravelcicd/artisan
+      - - serve
+
+
+appspec.yml
